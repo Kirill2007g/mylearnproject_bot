@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="Black">
+    <option name="sdkName" value="Python 3.12 (mylearnprojectbot)" />
+  </component>
   <component name="MaterialThemeProjectNewConfig">
     <option name="metadata">
       <MTProjectMetadataState>
@@ -7,5 +10,5 @@
       </MTProjectMetadataState>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.12 (mylearnprojectbot)" project-jdk-type="Python SDK" />
+  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.14 virtualenv at C:\Users\User\PycharmProjects\mylearnprojectbot\.venv (2)" project-jdk-type="Python SDK" />
 </project>
