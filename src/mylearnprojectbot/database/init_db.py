@@ -1,7 +1,7 @@
 import asyncio
 
-from db import Base, engine
-from models import Record   # noqa: F401
+from mylearnprojectbot.database.db import Base, engine
+from mylearnprojectbot.database.models import Record   # noqa: F401
 
 async def init_db():
     async with engine.begin() as conn:

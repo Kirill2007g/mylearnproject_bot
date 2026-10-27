@@ -2,13 +2,13 @@ import asyncio
 
 from src.mylearnprojectbot.config import settings
 from aiogram import Bot, Dispatcher
-from handlers import start
+from mylearnprojectbot.handlers import main_commands
 
 
 bot = Bot(token=settings.BOT_TOKEN.get_secret_value())
 dp = Dispatcher()
 
-dp.include_router(start.router)
+dp.include_router(main_commands.router)
 
 
 

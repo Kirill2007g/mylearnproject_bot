@@ -13,6 +13,7 @@ dependencies = [
     "psycopg[binary]>=3.3.6",
     "pydantic>=2.13.5",
     "pydantic-settings>=2.16.1",
+    "pytest>=9.1.1",
     "sqlalchemy[asyncio]>=2.1.6",
 ]
 

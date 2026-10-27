@@ -1,15 +1,21 @@
-from datetime import datetime
+from datetime import date
 
-from sqlalchemy import Integer, String, DateTime
+from sqlalchemy import String, Date, Boolean, false
 from sqlalchemy.orm import Mapped, mapped_column
 
-from db import Base
+from mylearnprojectbot.database.db import Base
 
 
 class Record(Base):
+
     __tablename__ = "record"
-    id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    subject: Mapped[String] = mapped_column(String, nullable=False)
-    topic: Mapped[String] = mapped_column(String, nullable=False)
-    ration: Mapped[String] = mapped_column(String, nullable=False)
-    completed_date: Mapped[datetime] = mapped_column(DateTime, nullable=False)
+    id: Mapped[int] = mapped_column(primary_key=True)
+    subject: Mapped[str] = mapped_column(String, nullable=False)
+    topic: Mapped[str] = mapped_column(String, nullable=False)
+    ration: Mapped[str] = mapped_column(String, nullable=False)
+    date: Mapped[date] = mapped_column(Date, nullable=False)
+    completed: Mapped[bool] = mapped_column(Boolean, server_default=false(), default=False, nullable=False)
+
+    @property
+    def show_record(self):
+        return self.subject, self.topic, self.ration, self.date, self.completed
