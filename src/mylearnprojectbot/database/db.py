@@ -1,6 +1,6 @@
 from sqlalchemy.ext.asyncio import async_sessionmaker, AsyncSession, create_async_engine
 from sqlalchemy.orm import DeclarativeBase
-from src.mylearnprojectbot.config import settings
+from mylearnprojectbot.config import settings
 
 class Base(DeclarativeBase):
     pass

@@ -2,7 +2,7 @@ from aiogram import Router, F
 from aiogram.filters import CommandStart, Command, CommandObject
 from aiogram.types import Message, FSInputFile
 from aiogram.fsm.context import FSMContext
-from mylearnprojectbot.database.db_queries import add_record, delete_record, show_record, make_record_competed
+from mylearnprojectbot.database.db_queries import RecordQueries
 from datetime import datetime
 from mylearnprojectbot.filters.handlers_filters import CheckIfCommandExists
 from pathlib import Path
@@ -23,34 +23,35 @@ async def cmd_start(message: Message):
 
 @router.message(Command("add"))
 async def cmd_add(message: Message, state: FSMContext, command: CommandObject):
-    photo_path = base_dir / "files" / "add_command_example.png"
-    photo = FSInputFile(photo_path)
-    await message.answer_photo(
-        photo,
-        caption="Как использовать /add"
-    )
-    user_input = [p.strip() for p in re.split(r"[;\n]", command.args)]
-    await state.update_data(subject=user_input[0], topic=user_input[1], ration=user_input[2], date=datetime.today())
+    photo = FSInputFile(base_dir / "files" / "add_command_example.png")
+    await message.answer_photo(photo, caption="Как использовать /add")
+    parts = [p.strip() for p in re.split(r"[;\n]+", command.args or "") if p.strip()]
+    if len(parts) < 3:
+        await message.answer("Нужно 3 поля: subject;\ntopic;\nration;")
+        return
+
+    await state.update_data(subject=parts[0], topic=parts[1], ration=parts[2], date=datetime.today())
     data = await state.get_data()
-    await add_record(data)
+    await RecordQueries.add_record(data)
+    await message.answer("✅ Запись добавлена")
 
 
 @router.message(Command("show"), CheckIfCommandExists())
 async def cmd_show(message: Message, state: FSMContext, command: CommandObject):
     date = await match_re_search(text=message.text)
-    record = await show_record(date)
+    record = await RecordQueries.show_record(date)
     await message.answer(f"Record: {str(record)}")
 
 @router.message(Command("delete"), CheckIfCommandExists())
 async def cmd_delete(message: Message, state: FSMContext, command: CommandObject):
     date = await match_re_search(text=message.text)
-    record = await delete_record(date)
+    record = await RecordQueries.delete_record(date)
     await message.answer(record)
 
 @router.message(Command("complete"), CheckIfCommandExists())
 async def cmd_complete(message: Message, state: FSMContext, command: CommandObject):
     date = await match_re_search(text=message.text)
-    await make_record_competed(date)
+    await RecordQueries.make_record_competed(date)
 
 async def match_re_search(text):
     match = re.search(r"\d{4}-\d{2}-\d{2}", text)
